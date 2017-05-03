@@ -5,7 +5,7 @@
 // Function to find the last game the ducks played
 // example api call for all games on specific date
 // http://api.sportradar.us/nhl-ot4/games/2017/05/01/schedule.json?api_key=gpku2at4tqngufd65hyzgfcw
-// http://api.sportradar.us/nhl-ot4/games/117/4/2/schedule.json?api_key=gpku2at4tqngufd65hyzgfcw
+
 function findLastGame(){
   var base = 'http://api.sportradar.us/nhl-ot4/games/';
   var dt = new Date();
@@ -15,7 +15,13 @@ function findLastGame(){
   var top = 'schedule.json?api_key=gpku2at4tqngufd65hyzgfcw';
 
   var url = base + year + month + date + top;
-  console.log(url);
+  $.ajax({
+    method: "GET",
+    url: url
+  })
+  .done(function(data) {
+    console.log(data);
+  });
 }
 // Function to pull data from that game
 function getLastGame(){
