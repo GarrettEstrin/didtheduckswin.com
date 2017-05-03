@@ -7,7 +7,7 @@
 // http://api.sportradar.us/nhl-ot4/games/2017/05/01/schedule.json?api_key=gpku2at4tqngufd65hyzgfcw
 
 function findLastGame(){
-  var base = 'http://api.sportradar.us/nhl-ot4/games/';
+  var base = 'https://api.sportradar.us/nhl-ot4/games/';
   var dt = new Date();
   var year = yyyy + '/';
   var month = mm +'/';
