@@ -1,62 +1,56 @@
 // Custom JavaScript by Garrett Estrin | GarrettEstrin.com
 
-
-
-// Function to find the last game the ducks played
-// example api call for all games on specific date
-// http://api.sportradar.us/nhl-ot4/games/2017/05/01/schedule.json?api_key=gpku2at4tqngufd65hyzgfcw
-
-function findLastGame(){
-  var base = 'https://api.sportradar.us/nhl-ot4/games/';
-  var dt = new Date();
-  var year = yyyy + '/';
-  var month = mm +'/';
-  var date = dd + '/';
-  var top = 'schedule.json?api_key=gpku2at4tqngufd65hyzgfcw';
-
-  var url = base + year + month + date + top;
-  $.ajax({
-    method: "GET",
-    url: url
+var gameinfo;
+var gameEnd;
+var ducksScore;
+var opponentScore;
+var win;
+var $content = $('.content')[0];
+$(document).ready(function() {
+  $.getJSON("https://spreadsheets.google.com/feeds/list/1hKrvATyh88jv_a1DTZ0jVdcR3b5A6MjPdjZgXJ81SGM/od6/public/values?alt=json", function(data) {
+    gameinfo = data.feed.entry[data.feed.entry.length-1].gsx$gameinfo.$t
+    getTypeOfEnd(gameinfo)
+    getScores(gameinfo)
   })
-  .done(function(data) {
-    console.log(data);
-  });
-}
-// Function to pull data from that game
-function getLastGame(){
+})
 
-}
-// Function to determine if ducks were home team
-function homeTeam(){
-
-}
-// Function to get home and away scores
-function getScores(){
-
-}
-// Function to compare the scores bases on ducks being home team or not
-function compareScores(){
-
-}
-
-// Function and variables to get yesterdays date
-var dd;
-var mm;
-var yyyy;
-function getDate(){
-  today = new Date();
-  yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-  dd = yesterday.getDate();
-  mm = yesterday.getMonth()+1; //January is 0!
-  yyyy = yesterday.getFullYear();
-  if(dd<10){
-    dd='0'+dd
-  } if(mm<10){
-    mm='0'+mm
+function getTypeOfEnd(gameinfo){
+  gameinfo = gameinfo.split(' ')
+  if(gameinfo[0] == 'Final/OT:') {
+    gameEnd = 'Overtime';
+  } else if (gameinfo[0] == 'Final/SO:') {
+    gameEnd = "Shoot Out"
+  } else {
+    gameEnd = "Regulation"
   }
-
 }
 
-getDate();
+function getScores(gameinfo){
+  gameinfo = gameinfo.split(' ')
+  if(gameinfo[1] == "Ducks"){
+    ducksScore = gameinfo[2];
+    opponentScore = gameinfo[4].split('');
+    opponentScore = opponentScore[0];
+  } else {
+    ducksScore = gameinfo[4].split('');
+    ducksScore = ducksScore[0];
+    opponentScore = gameinfo[2];
+  }
+  didDucksWin(ducksScore,opponentScore)
+}
+
+function didDucksWin(ducksScore, opponentScore){
+  if(ducksScore>opponentScore){
+    win = true
+  } else {
+    win = false
+  }
+  buildDom(win)
+}
+
+function buildDom(win){
+  console.log("buildDom hit");
+  if(win == true){
+    $content.textContent = "YES"
+  }
+}
