@@ -2,6 +2,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  font-family: DucksFont;
 }
 
 .container {
@@ -20,6 +21,14 @@ html, body {
   font-family: DucksFont;
   position: relative;
   bottom: 100px;
+  cursor: pointer;
+}
+
+.details {
+  position: relative;
+  bottom: 180px;
+  text-align: center;
+  font-size: 50px;
 }
 
 #logo {

@@ -58,6 +58,12 @@ function buildDom(win){
     } else {
       $content.textContent = "NO"
     }
+    $('body').click(function(){
+      showDetails();
+    })
   })
+}
 
+function showDetails(){
+  $('.details')[0].textContent = gameinfo;
 }
