@@ -6,6 +6,7 @@ var ducksScore;
 var opponentScore;
 var win;
 var $content = $('.content')[0];
+var $logo = $('#logo')
 $(document).ready(function() {
   $.getJSON("https://spreadsheets.google.com/feeds/list/1hKrvATyh88jv_a1DTZ0jVdcR3b5A6MjPdjZgXJ81SGM/od6/public/values?alt=json", function(data) {
     gameinfo = data.feed.entry[data.feed.entry.length-1].gsx$gameinfo.$t
@@ -46,13 +47,17 @@ function didDucksWin(ducksScore, opponentScore){
     win = false
   }
   buildDom(win)
+  // setTimeout(function(){buildDom(win)}, 2000);
 }
 
 function buildDom(win){
-  console.log("buildDom hit");
-  if(win == true){
-    $content.textContent = "YES"
-  } else {
-    $content.textContent = "NO"
-  }
+  // Fade out logo
+  $logo.fadeOut(2000, function(){
+    if(win === true){
+      $content.textContent = "YES"
+    } else {
+      $content.textContent = "NO"
+    }
+  })
+
 }

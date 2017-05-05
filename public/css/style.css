@@ -18,6 +18,14 @@ html, body {
   height: 100%;
   width: 100%;
   font-family: DucksFont;
+  position: relative;
+  bottom: 100px;
+}
+
+#logo {
+  width: 50%;
+  top: 100px;
+  position: relative;
 }
 
 @font-face {
