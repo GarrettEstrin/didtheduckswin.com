@@ -52,5 +52,7 @@ function buildDom(win){
   console.log("buildDom hit");
   if(win == true){
     $content.textContent = "YES"
+  } else {
+    $content.textContent = "NO"
   }
 }
