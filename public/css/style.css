@@ -41,3 +41,9 @@ html, body {
     font-family: DucksFont;
     src: url(ducks.ttf);
 }
+
+@media only screen and (min-width: 650px){
+  .details {
+    bottom: 400px;
+  }
+}
