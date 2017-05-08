@@ -1,7 +1,7 @@
 /* Custom CSS by Garrett Estrin | Garrett.Estrin.com */
 html, body {
   height: 100%;
-  width: 99%%;
+  width: 99%;
   font-family: DucksFont;
 }
 
@@ -26,7 +26,7 @@ html, body {
 
 .details {
   position: relative;
-  bottom: 200px;
+  bottom: 400px;
   text-align: center;
   font-size: 50px;
 }
@@ -42,8 +42,8 @@ html, body {
     src: url(ducks.ttf);
 }
 
-@media only screen and (min-width: 650px){
+@media (min-width: 768px) {
   .details {
-    bottom: 400px;
+    bottom: 200px;
   }
 }
