@@ -2,7 +2,7 @@
   "name": "didtheduckswin.com",
   "version": "1.0.0",
   "engines": {
-    "node": "6.11.1"
+    "node": "6.3.1"
   },
   "description": "minimalistic site that will tell the user if the Anaheim Ducks won their last game and more information about that game if the user wants it.",
   "main": "server.js",
