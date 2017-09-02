@@ -13,6 +13,7 @@ $(document).ready(function() {
     getTypeOfEnd(gameinfo)
     getScores(gameinfo)
   })
+  setFavicon();
 })
 
 function getTypeOfEnd(gameinfo){
@@ -66,4 +67,13 @@ function buildDom(win){
 
 function showDetails(){
   $('.details')[0].textContent = gameinfo;
+}
+
+function setFavicon() {
+	head = document.getElementsByTagName('head')[0];
+    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = 'https://didtheduckswin.herokuapp.com/favicon.ico';
+    document.getElementsByTagName('head')[0].appendChild(link);
 }
