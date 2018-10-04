@@ -10,7 +10,7 @@ var $logo = $('#logo')
 $(document).ready(function() {
   $.getJSON("https://spreadsheets.google.com/feeds/list/1hKrvATyh88jv_a1DTZ0jVdcR3b5A6MjPdjZgXJ81SGM/od6/public/values?alt=json", function(data) {
     gameinfo = data.feed.entry[data.feed.entry.length-1].gsx$gameinfo.$t
-    getTypeOfEnd(gameinfo)
+    //getTypeOfEnd(gameinfo)
     getScores(gameinfo)
   })
   setFavicon();
@@ -22,26 +22,27 @@ function getTypeOfEnd(gameinfo){
     gameEnd = 'Overtime';
   } else if (gameinfo[0] == 'Final/SO:') {
     gameEnd = "Shoot Out"
-  } else {
+  } else if(gameinfo[0] == 'Final:') {
     gameEnd = "Regulation"
+  } else {
+    gameEnd = "unknown";
   }
 }
 
 function getScores(gameinfo){
-  gameinfo = gameinfo.split(' ')
-  if(gameinfo[1] == "Ducks"){
-    ducksScore = gameinfo[2];
-    opponentScore = gameinfo[4].split('');
-    opponentScore = opponentScore[0];
+  gameinfo = gameinfo.toLowerCase().replace("final score ", "").split(' ')
+  if(gameinfo[0] == "ana"){
+    ducksScore = gameinfo[1];
+    opponentScore = gameinfo[gameinfo.length - 1];
   } else {
-    ducksScore = gameinfo[4].split('');
-    ducksScore = ducksScore[0];
-    opponentScore = gameinfo[2];
+    ducksScore = gameinfo[gameinfo.length - 1];
+    opponentScore = gameinfo[1];
   }
   didDucksWin(ducksScore,opponentScore)
 }
 
 function didDucksWin(ducksScore, opponentScore){
+  console.log("ana", ducksScore, "opp", opponentScore);
   if(ducksScore>opponentScore){
     win = true
   } else {
