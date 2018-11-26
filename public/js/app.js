@@ -1,55 +1,42 @@
 // Custom JavaScript by Garrett Estrin | GarrettEstrin.com
-
+var teamID = 24;
 var gameinfo;
-var gameEnd;
+var gameDetails;
 var ducksScore;
 var opponentScore;
 var win;
 var $content = $('.content')[0];
 var $logo = $('#logo')
 $(document).ready(function() {
-  $.getJSON("https://spreadsheets.google.com/feeds/list/1hKrvATyh88jv_a1DTZ0jVdcR3b5A6MjPdjZgXJ81SGM/od6/public/values?alt=json", function(data) {
-    gameinfo = data.feed.entry[data.feed.entry.length-1].gsx$gameinfo.$t
-    //getTypeOfEnd(gameinfo)
-    getScores(gameinfo)
+  $.getJSON(`https://statsapi.web.nhl.com/api/v1/teams/${teamID}?expand=team.schedule.previous`, function(data) {
+    if(TeamIsHomeTeam(data)){
+      var teamScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.home.score;
+      var oppScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.away.score;
+    } else {
+      var oppScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.home.score;
+      var teamScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.away.score;
+    }
+    gameDetails = getGameDetails(data);
+    didTeamWin(teamScore, oppScore);
   })
   setFavicon();
 })
 
-function getTypeOfEnd(gameinfo){
-  gameinfo = gameinfo.split(' ')
-  if(gameinfo[0] == 'Final/OT:') {
-    gameEnd = 'Overtime';
-  } else if (gameinfo[0] == 'Final/SO:') {
-    gameEnd = "Shoot Out"
-  } else if(gameinfo[0] == 'Final:') {
-    gameEnd = "Regulation"
+function TeamIsHomeTeam(data){
+  if(data.teams[0].previousGameSchedule.dates[0].games[0].teams.away.team.id == teamID){
+    return false;
   } else {
-    gameEnd = "unknown";
+    return true;
   }
 }
 
-function getScores(gameinfo){
-  gameinfo = gameinfo.toLowerCase().replace("final score ", "").split(' ')
-  if(gameinfo[0] == "ana"){
-    ducksScore = gameinfo[1];
-    opponentScore = gameinfo[gameinfo.length - 1];
-  } else {
-    ducksScore = gameinfo[gameinfo.length - 1];
-    opponentScore = gameinfo[1];
-  }
-  didDucksWin(ducksScore,opponentScore)
-}
-
-function didDucksWin(ducksScore, opponentScore){
-  console.log("ana", ducksScore, "opp", opponentScore);
-  if(ducksScore>opponentScore){
+function didTeamWin(teamScore, oppScore){
+  if(teamScore>oppScore){
     win = true
   } else {
     win = false
   }
   buildDom(win)
-  // setTimeout(function(){buildDom(win)}, 2000);
 }
 
 function buildDom(win){
@@ -66,8 +53,14 @@ function buildDom(win){
   })
 }
 
+function getGameDetails(data){
+  let gameInfo = data.teams[0].previousGameSchedule.dates[0].games[0];
+  let { away, home } = gameInfo.teams;
+  return `Final Score ${home.team.name} ${home.score} - ${away.team.name} ${away.score}`;
+}
+
 function showDetails(){
-  $('.details')[0].textContent = gameinfo;
+  $('.details')[0].textContent = gameDetails;
 }
 
 function setFavicon() {
