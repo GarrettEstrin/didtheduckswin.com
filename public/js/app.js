@@ -1,5 +1,8 @@
 // Custom JavaScript by Garrett Estrin | GarrettEstrin.com
 var teamID = 24;
+var favicon = 'https://didtheduckswin.herokuapp.com/favicon.ico';
+
+
 var gameinfo;
 var gameDetails;
 var ducksScore;
@@ -68,6 +71,6 @@ function setFavicon() {
     var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
     link.type = 'image/x-icon';
     link.rel = 'shortcut icon';
-    link.href = 'https://didtheduckswin.herokuapp.com/favicon.ico';
+    link.href = favicon;
     document.getElementsByTagName('head')[0].appendChild(link);
 }
